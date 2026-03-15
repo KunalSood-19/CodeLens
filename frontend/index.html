@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>AI Code Review Tool</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5/lib/codemirror.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+background:#0b0f19;
+color:#e2e8f0;
+height:100vh;
+display:flex;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+width:220px;
+background:#020617;
+border-right:1px solid #1e293b;
+padding:25px 15px;
+display:flex;
+flex-direction:column;
+}
+
+.logo{
+font-size:18px;
+font-weight:600;
+font-style: italic;
+color:#ffffff;
+margin-bottom:30px;
+}
+
+.sidebar button{
+margin-bottom:10px;
+background:#0f172a;
+border:1px solid #1e293b;
+padding:10px;
+color:#cbd5f5;
+border-radius:6px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.sidebar button:hover{
+background:#1e293b;
+}
+
+/* MAIN */
+
+.main{
+flex:1;
+display:flex;
+flex-direction:column;
+}
+
+/* TOPBAR */
+
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 25px;
+border-bottom:1px solid #1e293b;
+background:#020617;
+}
+
+.topbar h1{
+font-size:18px;
+color:#38bdf8;
+}
+
+.controls{
+display:flex;
+gap:10px;
+align-items:center;
+}
+
+.controls input{
+background:#0f172a;
+border:1px solid #1e293b;
+padding:8px;
+color:white;
+border-radius:6px;
+}
+
+.controls button{
+background:#0284c7;
+border:none;
+padding:8px 14px;
+border-radius:6px;
+cursor:pointer;
+color:white;
+}
+
+/* WORKSPACE */
+
+.workspace{
+flex:1;
+display:flex;
+padding:15px;
+gap:15px;
+}
+
+/* EDITOR */
+
+.editor-panel{
+flex:2;
+background:#020617;
+border-radius:10px;
+border:1px solid #1e293b;
+overflow:hidden;
+}
+
+#editor{
+height:100%;
+}
+
+/* RESULTS */
+
+.results{
+flex:1;
+background:#020617;
+border-radius:10px;
+border:1px solid #1e293b;
+padding:20px;
+overflow:auto;
+}
+
+.results h2{
+color:#38bdf8;
+margin-bottom:10px;
+}
+
+.results p{
+margin:5px 0;
+font-size:14px;
+}
+
+/* ANALYTICS CARDS */
+
+.cards{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:10px;
+margin-bottom:35px;
+}
+
+.card{
+background:#0f172a;
+padding:12px;
+border-radius:6px;
+border:1px solid #1e293b;
+font-size:13px;
+
+}
+
+ul{
+padding-left:18px;
+margin-top:10px;
+margin-bottom: 15px;
+}
+
+li{
+margin-bottom:5px;
+font-size:13px;
+
+}
+
+.CodeMirror{
+height:100% !important;
+font-size:14px;
+background:white;
+color:black;
+padding:10px;
+}
+
+.h11{
+    margin-top:25px;
+}
+</style>
+
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+
+<div class="sidebar">
+
+<div class="logo">CodeLens</div>
+
+<button onclick="analyzeCode()">Analyze Code</button>
+<button onclick="copyCode()">Copy Code</button>
+<button onclick="downloadCode()">Download Code</button>
+<button onclick="downloadReport()">Download Report</button>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div class="main">
+
+<div class="topbar">
+
+<h1>AI Code Review Dashboard</h1>
+
+<div class="controls">
+<input type="file" id="fileInput">
+</div>
+
+</div>
+
+<div class="workspace">
+
+<div class="editor-panel">
+<div id="editor"></div>
+</div>
+
+<div class="results" id="resultsPanel" style="display:none;">
+
+<h2>Analysis</h2>
+
+<div class="cards">
+
+<div class="card">
+Language: <span id="language">-</span>
+</div>
+
+<div class="card">
+Complexity: <span id="complexity">-</span>
+</div>
+
+<div class="card">
+Score: <span id="score">-</span>
+</div>
+
+<div class="card">
+LOC: <span id="loc">0</span>
+</div>
+
+</div>
+
+<p><b>Loops Used:</b> <span id="loops">0</span></p>
+
+<canvas id="scoreChart"></canvas>
+
+<h3 class="h11">Suggestions</h3>
+<ul id="suggestions"></ul>
+
+<h3>AI Review</h3>
+<ul id="aiReview"></ul>
+
+</div>
+
+</div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5/lib/codemirror.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/codemirror@5/mode/javascript/javascript.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
